@@ -1,26 +1,26 @@
 var people = new Array();
 data = data.split("\n");
 for(var i in data) {
-  if(people[i] == undefined) people[i] = {};
+  if(people[i] == undefined) people[i] = new Array();
   for(var j in data[i]) {
     people[i][j] = (data[i][j] == 'X') ? true : false;
   }
 }
 
 var persons = people.length - 1;
-for(var i = 0; i < persons; i++) {
-  console.log('-----------------------' + i);
-  people[i].invited = countInvites(i);
-  console.log(people[i].invited);
-}
+var counts = new Array();
+for(var i = 0; i < persons; i++) people[i].invited = countInvites(i, i);
 
-function countInvites(b) {
+counts.sort();
+console.log(counts);
+
+function countInvites(b, k) {
   var count = 0;
-  for(var i = b + 1; i < persons; i++) {
-    console.log(i);
-    for(var j in persons[i]) {
-      if(persons[i][j]) count++;
-      count += countInvites(j);
+  var invites = people[k].length;
+  for(var i = 0; i < invites; i++) {
+    if(people[k][i]) {
+      count++;
+      count += countInvites(b, i);
     }
   }
   return count;
